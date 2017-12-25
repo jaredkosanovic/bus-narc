@@ -3,12 +3,14 @@ import requests
 import time
 import argparse
 
-# 1514156835701 thousandth of a second - milliseconds
 
+# Returns data for buses including coordinates and a timestamp at which the 
+# coordinates were recorded. Returns a dict in the format:
+#   {'vehicle_id': [[lat, lon, timestamp_in_milliseconds)]]}
 def get_loc_and_time():
     vehicles_loc_and_time = {}
 
-    for _ in range(5):
+    for _ in range(8):
         request = requests.get('http://developer.trimet.org/ws/v2/vehicles', params=params)
         response = request.json()
 
@@ -39,4 +41,6 @@ if __name__ == '__main__':
 
     params = {'appID': app_id, 'routes': route}
 
+    # Each element in the dict returned by get_loc_and_time() should be sent 
+    # to the function that will return the speed
     print(get_loc_and_time())
